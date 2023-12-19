@@ -67,8 +67,10 @@ $tasks = [
   ),
 ];
 
-Route::get('/', function () {
-    return 'Main';
+Route::get('/', function () use($tasks){
+    return view('index',[
+        'tasks'=> $tasks
+    ]);
 });
 Route::fallback(function () {
 return 'not found';
