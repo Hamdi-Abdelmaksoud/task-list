@@ -1,7 +1,11 @@
-<h1>{{$task->title}}</h1>
+@extends('layouts.app')
+@section('title',$task->title)
+{{-- creer une section title pas besoin de la fermer car elle contient pas du html --}}
+@section('content')
 <p>{{$task->description}}</p>
 @if ($task->long_description)
 <p>{{ $task->long_description}}</p>
 @endif
 <p>{{ $task->created_at}}</p>
 <p>{{ $task->updated_at}}</p>
+@endsection
