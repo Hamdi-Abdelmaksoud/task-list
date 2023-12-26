@@ -2,12 +2,8 @@
     List of tasks
 </h1>
 <div>
-    {{-- @if (count($tasks))zz --}}
     @foreach ($tasks as $task )
-    <div>{{$task->title}}</div>
+    <div><a href="{{route('tasks.show',['id'])}}">{{$task->title}}</a></div>
     @endforeach
-    @else
-    <div>there are no tasks</div>
 
-    {{-- @endif --}}
 </div>

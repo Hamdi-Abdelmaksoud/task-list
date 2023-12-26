@@ -71,7 +71,10 @@ Route::get('/', function () use($tasks){
     return view('index',[
         'tasks'=> $tasks
     ]);
-});
+})->name('tasks.index');
+Route::get('/{id}', function ($id) {
+    return 'one singkle task';
+})->name('tasks.show');
 Route::fallback(function () {
 return 'not found';
 });
