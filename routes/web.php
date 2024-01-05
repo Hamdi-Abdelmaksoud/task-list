@@ -74,12 +74,15 @@ Route::get('/tasks', function () use($tasks){
         'tasks'=> $tasks
     ]);
 })->name('tasks.index');
-Route::get('/tasks/{id}', function ($id) use($tasks){
-    $task= collect($tasks)->firstWhere('id', $id);//convertir task en collection
-    if(!$task){
-     abort(Response::HTTP_NOT_FOUND);
-    }
-    return view('show',['task'=>$task]);
+// Route::get('/tasks/{id}', function ($id) use($tasks){
+//     $task= collect($tasks)->firstWhere('id', $id);//convertir task en collection
+//     if(!$task){
+//      abort(Response::HTTP_NOT_FOUND);
+//     }
+//remove use($tasks) array because we will use yasks in db
+Route::get('/tasks/{id}', function ($id) {
+return view('show',['task'=> \App\Models\Task::find($id)]);
+//fetching task by id from data using fid method
 })->name('tasks.show');
 Route::fallback(function () {
 return 'not found';
