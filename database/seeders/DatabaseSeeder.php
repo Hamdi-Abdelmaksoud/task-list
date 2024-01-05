@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory(10)->create();
         //we use command php artisan db:seed to add fake data
+        \App\Models\User::factory(2)->unverified()->create();//ad two models unverified
         \App\Models\Task::factory(20)->create();
  // php artisan migrate:refresh -seed if we want to refresh data
         // \App\Models\User::factory()->create([
