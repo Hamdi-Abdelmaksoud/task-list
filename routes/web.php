@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Task;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -84,10 +86,21 @@ Route::get('/tasks', function (){
 //      abort(Response::HTTP_NOT_FOUND);
 //     }
 //remove use($tasks) array because we will use yasks in db
+Route::view('/tasks/create', 'create')->name('tasks.create');
 Route::get('/tasks/{id}', function ($id) {
 return view('show',['task'=> \App\Models\Task::findOrFail($id)]);
 //fetching task by id from data using find method  or findOrFail to generate 404 error page
 })->name('tasks.show');
+// /task same url but with post not get no problem
+Route::post('/tasks', function (Request $request) {
+// dd($request->all()); to fetch data dans request
+$data = $request->validate([
+    // validation rules
+    'title'=> 'required|max:255',
+    'description'=>'required',
+    'long_description'=> 'required'
+]);
+})->name('tasks.store');
 Route::fallback(function () {
 return 'not found';
 });
