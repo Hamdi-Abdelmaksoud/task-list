@@ -100,6 +100,14 @@ $data = $request->validate([
     'description'=>'required',
     'long_description'=> 'required'
 ]);
+//affecter les données du formulaire à un nouveau ob
+$task= new Task;
+$task->title = $data['title'];
+$task->description= $data['description'];
+$task->long_description= $data['long_description'];
+//insert query
+$task->save();
+return redirect()->route('tasks.show',['id'=>$task->id])->with('success','1');
 })->name('tasks.store');
 Route::fallback(function () {
 return 'not found';
