@@ -107,7 +107,8 @@ $task->description= $data['description'];
 $task->long_description= $data['long_description'];
 //insert query
 $task->save();
-return redirect()->route('tasks.show',['id'=>$task->id])->with('success','1');
+return redirect()->route('tasks.show',['id'=>$task->id])
+->with('success','Task created successfully!');
 })->name('tasks.store');
 Route::fallback(function () {
 return 'not found';
