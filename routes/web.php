@@ -87,11 +87,28 @@ Route::get('/tasks', function (){
 //     }
 //remove use($tasks) array because we will use yasks in db
 Route::view('/tasks/create', 'create')->name('tasks.create');
+Route::get('/tasks/{id}/edit', function ($id) {
+return view('edit',['task'=> Task::findOrFail($id)]);
+})->name('tasks.edit');
 Route::get('/tasks/{id}', function ($id) {
 return view('show',['task'=> \App\Models\Task::findOrFail($id)]);
 //fetching task by id from data using find method  or findOrFail to generate 404 error page
 })->name('tasks.show');
-// /task same url but with post not get no problem
+Route::put('/tasks/{id}', function ($id,Request $request) {
+$data = $request->validate([
+    // validation rules
+    'title'=> 'required|max:255',
+    'description'=>'required',
+    'long_description'=> 'required'
+]);
+$task= Task::findOrFail($id);
+$task->title = $data['title'];
+$task->description= $data['description'];
+$task->long_description= $data['long_description'];
+$task->save();
+return redirect()->route('tasks.show',['id'=>$task->id])
+->with('success','Task updated successfully!');
+})->name('tasks.update');
 Route::post('/tasks', function (Request $request) {
 // dd($request->all()); to fetch data dans request
 $data = $request->validate([
