@@ -87,12 +87,14 @@ Route::get('/tasks', function (){
 //     }
 //remove use($tasks) array because we will use yasks in db
 Route::view('/tasks/create', 'create')->name('tasks.create');
-Route::get('/tasks/{id}/edit', function ($id) {
+Route::get('/tasks/{task}/edit', function ($id) {
 return view('edit',['task'=> Task::findOrFail($id)]);
 })->name('tasks.edit');
-Route::get('/tasks/{id}', function ($id) {
-return view('show',['task'=> \App\Models\Task::findOrFail($id)]);
+Route::get('/tasks/{id}', function (Task $task) {
+// return view('show',['task'=> \App\Models\Task::findOrFail($id)]);
 //fetching task by id from data using find method  or findOrFail to generate 404 error page
+return view('edit',
+['task'=>$task]);//automaticly fetching 
 })->name('tasks.show');
 Route::put('/tasks/{id}', function ($id,Request $request) {
 $data = $request->validate([
