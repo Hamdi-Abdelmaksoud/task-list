@@ -4,6 +4,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use GuzzleHttp\Promise\Create;
+use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -96,36 +97,41 @@ Route::get('/tasks/{task}', function (Task $task) {
 return view('show',
 ['task'=>$task]);//automaticly fetching
 })->name('tasks.show');
-Route::put('/tasks/{task}', function (Task $task,Request $request) {
-$data = $request->validate([
-    // validation rules
-    'title'=> 'required|max:255',
-    'description'=>'required',
-    'long_description'=> 'required'
-]);
-$task->title = $data['title'];
-$task->description= $data['description'];
-$task->long_description= $data['long_description'];
-$task->save();
+Route::put('/tasks/{task}', function (Task $task,TaskRequest $request) {
+// $data = $request->validate([
+//     // validation rules
+//     'title'=> 'required|max:255',
+//     'description'=>'required',
+//     'long_description'=> 'required'
+// ]);
+// $data= $request->validated();
+// $task->title = $data['title'];
+// $task->description= $data['description'];
+// $task->long_description= $data['long_description'];
+// $task->save();
+$task->update($request->validated());
 return redirect()->route('tasks.show',['task'=>$task])
 ->with('success','Task updated successfully!');
 })->name('tasks.update');
-Route::post('/tasks', function (Request $request) {
+Route::post('/tasks', function (TaskRequest $request) {
 // dd($request->all()); to fetch data dans request
-$data = $request->validate([
-    // validation rules
-    'title'=> 'required|max:255',
-    'description'=>'required',
-    'long_description'=> 'required'
-]);
+// $data = $request->validate([
+//     // validation rules
+//     'title'=> 'required|max:255',
+//     'description'=>'required',
+//     'long_description'=> 'required'
+// ]);
+// php artisan make:request TaskRequest & contain the ruels
 //affecter les données du formulaire à un nouveau ob
-$task= new Task;
-$task->title = $data['title'];
-$task->description= $data['description'];
-$task->long_description= $data['long_description'];
-//insert query
-$task->save();
-return redirect()->route('tasks.show',['id'=>$task->id])
+// $data=$request->validated();
+// $task= new Task;
+// $task->title = $data['title'];
+// $task->description= $data['description'];
+// $task->long_description= $data['long_description'];
+// //insert query
+// $task->save();
+$task= Task::create($request->validated());//to do that should modify model $fillable
+return redirect()->route('tasks.show',['task'=>$task->id])
 ->with('success','Task created successfully!');
 })->name('tasks.store');
 Route::fallback(function () {
