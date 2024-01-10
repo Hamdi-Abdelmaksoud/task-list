@@ -87,28 +87,27 @@ Route::get('/tasks', function (){
 //     }
 //remove use($tasks) array because we will use yasks in db
 Route::view('/tasks/create', 'create')->name('tasks.create');
-Route::get('/tasks/{task}/edit', function ($id) {
-return view('edit',['task'=> Task::findOrFail($id)]);
+Route::get('/tasks/{task}/edit', function (Task $task) {
+return view('edit',['task'=> $task]);
 })->name('tasks.edit');
-Route::get('/tasks/{id}', function (Task $task) {
+Route::get('/tasks/{task}', function (Task $task) {
 // return view('show',['task'=> \App\Models\Task::findOrFail($id)]);
 //fetching task by id from data using find method  or findOrFail to generate 404 error page
-return view('edit',
-['task'=>$task]);//automaticly fetching 
+return view('show',
+['task'=>$task]);//automaticly fetching
 })->name('tasks.show');
-Route::put('/tasks/{id}', function ($id,Request $request) {
+Route::put('/tasks/{task}', function (Task $task,Request $request) {
 $data = $request->validate([
     // validation rules
     'title'=> 'required|max:255',
     'description'=>'required',
     'long_description'=> 'required'
 ]);
-$task= Task::findOrFail($id);
 $task->title = $data['title'];
 $task->description= $data['description'];
 $task->long_description= $data['long_description'];
 $task->save();
-return redirect()->route('tasks.show',['id'=>$task->id])
+return redirect()->route('tasks.show',['task'=>$task])
 ->with('success','Task updated successfully!');
 })->name('tasks.update');
 Route::post('/tasks', function (Request $request) {
