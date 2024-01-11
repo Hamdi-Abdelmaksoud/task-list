@@ -113,6 +113,11 @@ $task->update($request->validated());
 return redirect()->route('tasks.show',['task'=>$task])
 ->with('success','Task updated successfully!');
 })->name('tasks.update');
+Route::delete('tasks/{task}', function (Task $task) {
+$task->delete();
+return redirect()->route('tasks.index')
+->with('success','Task deleted successfully! ');
+})->name('tasks.destroy');
 Route::post('/tasks', function (TaskRequest $request) {
 // dd($request->all()); to fetch data dans request
 // $data = $request->validate([
