@@ -77,7 +77,8 @@ Route::get('/', function () {
 Route::get('/tasks', function (){
     return view('index',[
         // 'tasks'=> Task::all()//fetching all task
-        'tasks'=> Task::latest()->get()//fetching all task sorted
+        'tasks'=> Task::latest()->get()
+        //fetching all task sorted
         // 'tasks'=> Task::latest()->where('completed', true)->get()//fetching all completed tasks
     ]);
 })->name('tasks.index');
