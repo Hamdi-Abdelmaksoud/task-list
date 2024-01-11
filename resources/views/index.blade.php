@@ -6,4 +6,8 @@
     <div><a href="{{route('tasks.show',['task'=>$task->id])}}">{{$task->title}}</a></div>
     @endforeach
 </div>
+@if ($tasks->count())
+<nav>{{$tasks->links()}}</nav>//pagination
+
+@endif
 @endsection
