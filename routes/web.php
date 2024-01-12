@@ -119,6 +119,12 @@ $task->delete();
 return redirect()->route('tasks.index')
 ->with('success','Task deleted successfully! ');
 })->name('tasks.destroy');
+Route::put('tasks/{task}/toogle-complete', function (Task $task) {
+// $task->completed =!$task->completed;//toogle a=-a
+// $task->save();
+$task->toggleComplete();//function in task.php
+return redirect()->back()->with('success','Task updated successfully!');
+})->name('tasks.toggle-complete');
 Route::post('/tasks', function (TaskRequest $request) {
 // dd($request->all()); to fetch data dans request
 // $data = $request->validate([
